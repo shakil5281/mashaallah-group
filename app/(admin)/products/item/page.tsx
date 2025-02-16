@@ -101,182 +101,193 @@ export default function ProductForm() {
     }
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="max-w-3xl lg:grid flex flex-col  lg:grid-cols-2 lg:gap-6 gap-3 mx-auto p-4 bg-white shadow-lg rounded-lg"
-            >
-                {/* Name */}
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Product Name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter product name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {/* Quantity */}
-                <FormField
-                    control={form.control}
-                    name="quantity"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Product Quantity</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter product quantity" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="weight"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Product Weight</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter product weight" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="weightUnit"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Product weightUnit</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a weight unit" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {
-                                        ["LITER", "ML", "KG", "GM"].map((item, index) => (
-                                            <SelectItem key={index} value={item}>{item}</SelectItem>
-                                        ))
-                                    }
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="mrp"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Product MRP</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter your prodct MRP" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="traderPrice"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Product Trade Price</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter your product trader price" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {/* Image Upload (Mobile Camera) */}
-                <FormField
-                    control={form.control}
-                    name="image"
-                    render={({ field: { onChange, ref } }) => (
-                        <FormItem>
-                            <FormLabel>Upload Image</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="file"
-                                    accept="image/*"
-                                    capture="environment" // Enables mobile camera
-                                    ref={ref}
-                                    onChange={(e) => onChange(e.target.files)}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {/* Expiration Date */}
-                <FormField
-                    control={form.control}
-                    name="expireDate"
-                    render={({ field }) => (
-                        <FormItem className="">
-                            <FormLabel className="">Expiration Date</FormLabel>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <FormControl className="w-full flex">
-                                        <Button variant="outline">
-                                            {field.value ? format(field.value, "PPP") : "Pick a date"}
-                                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                        </Button>
-                                    </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent align="start">
-                                    <Calendar
-                                        mode="single"
-                                        selected={field.value}
-                                        onSelect={field.onChange}
-                                        disabled={(date) => date < new Date()}
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem className="col-span-2">
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Textarea placeholder="Enter product description" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                {/* Submit Button */}
-                <div className="col-span-2">
-                    <Button
-                        type="submit"
-                        className="w-full"
-                        disabled={!form.formState.isValid || loading}
-                    >
-                        {loading ? "Loading..." : "Submit"}</Button>
+        <div>
+            <div>
+                <div>
+                    <p className="text-center text-3xl font-semibold py-4">
+                       Product Item Add
+                    </p>
                 </div>
-            </form>
-        </Form>
+                <div>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="max-w-3xl lg:grid flex flex-col  lg:grid-cols-2 lg:gap-6 gap-3 mx-auto p-4 bg-white rounded-lg"
+                        >
+                            {/* Name */}
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Product Name</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Enter product name" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Quantity */}
+                            <FormField
+                                control={form.control}
+                                name="quantity"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Product Quantity</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Enter product quantity" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="weight"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Product Weight</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Enter product weight" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="weightUnit"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Product weightUnit</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a weight unit" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {
+                                                    ["LITER", "ML", "KG", "GM"].map((item, index) => (
+                                                        <SelectItem key={index} value={item}>{item}</SelectItem>
+                                                    ))
+                                                }
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="mrp"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Product MRP</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Enter your prodct MRP" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="traderPrice"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Product Trade Price</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Enter your product trader price" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Image Upload (Mobile Camera) */}
+                            <FormField
+                                control={form.control}
+                                name="image"
+                                render={({ field: { onChange, ref } }) => (
+                                    <FormItem>
+                                        <FormLabel>Upload Image</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                capture="environment" // Enables mobile camera
+                                                ref={ref}
+                                                onChange={(e) => onChange(e.target.files)}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Expiration Date */}
+                            <FormField
+                                control={form.control}
+                                name="expireDate"
+                                render={({ field }) => (
+                                    <FormItem className="">
+                                        <FormLabel className="">Expiration Date</FormLabel>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <FormControl className="w-full flex">
+                                                    <Button variant="outline">
+                                                        {field.value ? format(field.value, "PPP") : "Pick a date"}
+                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                    </Button>
+                                                </FormControl>
+                                            </PopoverTrigger>
+                                            <PopoverContent align="start">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    disabled={(date) => date < new Date()}
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-2">
+                                        <FormLabel>Description</FormLabel>
+                                        <FormControl>
+                                            <Textarea placeholder="Enter product description" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* Submit Button */}
+                            <div className="col-span-2">
+                                <Button
+                                    type="submit"
+                                    className="w-full"
+                                    disabled={!form.formState.isValid || loading}
+                                >
+                                    {loading ? "Loading..." : "Submit"}</Button>
+                            </div>
+                        </form>
+                    </Form>
+                </div>
+            </div>
+        </div>
     );
 }

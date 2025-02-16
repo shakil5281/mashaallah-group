@@ -42,9 +42,9 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: -10 }} 
-      animate={{ opacity: 1, y: 0 }} 
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className="p-6 space-y-6"
     >
@@ -57,7 +57,7 @@ export default function Dashboard() {
       </div>
 
       {/* Recent Orders Table */}
-      <Card className="shadow-md">
+      <Card className="shadow">
         <CardHeader>
           <CardTitle>Recent Orders</CardTitle>
         </CardHeader>
@@ -98,16 +98,16 @@ export default function Dashboard() {
 
 function StatsCard({ title, value, Icon }: { title: string; value: string | number; Icon: any }) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }} 
-      animate={{ opacity: 1, scale: 1 }} 
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className="flex items-center p-4 shadow-md">
-        <Icon className="w-10 h-10 text-primary mr-4" />
+      <Card className="flex items-center p-4 shadow h-28">
+        <Icon className="w-8 h-8 text-primary mr-8" />
         <div>
           <p className="text-sm text-gray-500">{title}</p>
-          <p className="text-lg font-bold">{value}</p>
+          <p className="text-xl font-bold">{value}</p>
         </div>
       </Card>
     </motion.div>
