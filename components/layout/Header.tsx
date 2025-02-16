@@ -34,7 +34,7 @@ export default function Header() {
                             transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
                             <Link
-                                href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
+                                href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                 className="text-gray-700 hover:text-blue-600 transition font-medium"
                             >
                                 {item}
@@ -69,7 +69,7 @@ export default function Header() {
                         {["Home", "About", "Services", "Contact"].map((item, index) => (
                             <Link
                                 key={index}
-                                href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
+                                href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                 className="text-gray-700 hover:text-blue-600 transition font-medium w-full text-center"
                                 onClick={() => setIsOpen(false)}
                             >

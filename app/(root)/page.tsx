@@ -15,8 +15,6 @@ export default function Home() {
   
   return (
     <>
-      {/* Header section */}
-      <Header />
       <main className="min-h-screen bg-gray-100 text-gray-900">
         {/* Hero Section */}
         <section className="relative flex flex-col items-center justify-center h-screen text-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6">
