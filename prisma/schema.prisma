@@ -1,3 +1,5 @@
+// Prisma Schema for Grocery Store App
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,8 +9,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User Model
 model User {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
-  email String @unique
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("customer") // Roles: "admin" | "customer"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Product Model
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  quantity    Int
+  weight      Float
+  mrp         Float
+  traderPrice Float
+  image       String
+  expireDate  DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

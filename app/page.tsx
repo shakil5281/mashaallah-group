@@ -1,9 +1,18 @@
 "use client";
 
 import Header from "@/components/layout/Header";
+import { useAuth } from "@clerk/nextjs";
 import { motion } from "framer-motion";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+
+  const { userId } = useAuth();
+
+  if (userId) {
+    redirect("/dashboard");
+  }
+  
   return (
     <>
       {/* Header section */}

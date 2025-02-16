@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link"
-
+import { useState } from "react"
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -32,12 +32,13 @@ const FormSchema = z.object({
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const { signIn, isLoaded } = useSignIn()
   const router = useRouter()
-
   const { userId } = useAuth();
 
   if (userId) {
     redirect("/dashboard");
   }
+
+  const [loading, setLoading] = useState(false)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -45,31 +46,31 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       email: "",
       password: "",
     },
+    mode: "onChange",
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!isLoaded) return
 
+    setLoading(true)
     try {
       await signIn.create({
         identifier: data.email,
         password: data.password,
       })
-      // toast({ title: "Login successful", description: "You have logged in successfully!" })
       toast.success("You have logged in successfully!")
       window.location.reload()
     } catch (error: any) {
-      // toast({ title: "Login failed", description: error.errors[0]?.message || "Something went wrong!" })
       toast.error(error.errors[0]?.message || "Something went wrong!")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div>
-        <Link href='/'>
-          Home
-        </Link>
+        <Link href='/'>Home</Link>
       </div>
       <Card className="border-none shadow-none">
         <CardHeader className="text-center">
@@ -113,7 +114,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">Login</Button>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={!form.formState.isValid || loading}
+                >
+                  {loading ? "Logging in..." : "Login"}
+                </Button>
               </form>
             </Form>
 
