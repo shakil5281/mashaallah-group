@@ -76,9 +76,11 @@ export default function Header() {
                                 {item}
                             </Link>
                         ))}
+                    <Link className="w-full" href='/sign-in'>
                         <Button className="w-full">
                             Login
                         </Button>
+                    </Link>
                     </nav>
                 </motion.div>
             )}

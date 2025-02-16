@@ -10,6 +10,7 @@ import {
   UserButton
 } from '@clerk/nextjs'
 import { Toaster } from "sonner";
+import TopLoader from "@/components/Toploading";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,10 +38,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-
-          {/* <SignedIn>
-            <UserButton />
-          </SignedIn> */}
+          <TopLoader />
           {children}
           <Toaster richColors />
         </body>
