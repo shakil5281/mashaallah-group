@@ -21,12 +21,20 @@ model User {
 }
 
 // Product Model
+enum WeightUnit {
+  LITER
+  ML
+  KG
+  GM
+}
+
 model Product {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   quantity    Int
   weight      Float
+  weightUnit  WeightUnit
   mrp         Float
   traderPrice Float
   image       String

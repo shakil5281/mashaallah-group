@@ -11,6 +11,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import {
     Form,
     FormControl,
     FormField,
@@ -25,12 +32,14 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
 
 const ProductSchema = z.object({
     name: z.string().min(2, { message: "Product name must be at least 2 characters." }),
     description: z.string().min(5, { message: "Description must be at least 5 characters." }),
     quantity: z.coerce.number().min(1, { message: "Quantity must be at least 1." }),
     weight: z.coerce.number().min(0.1, { message: "Weight must be at least 0.1 kg." }),
+    weightUnit: z.enum(["LITER", "ML", "KG", "GM"]),
     mrp: z.coerce.number().min(1, { message: "MRP must be at least 1." }),
     traderPrice: z.coerce.number().min(1, { message: "Trader price must be at least 1." }),
     image: z.any().optional(), // Allow image file
@@ -39,28 +48,32 @@ const ProductSchema = z.object({
 
 export default function ProductForm() {
     const [products, setProducts] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false)
 
     const form = useForm<z.infer<typeof ProductSchema>>({
         resolver: zodResolver(ProductSchema),
         defaultValues: {
             name: "",
-            description: "",
-            quantity: 1,
-            weight: 0.1,
-            mrp: 1,
-            traderPrice: 1,
+            quantity: undefined,
+            weight: undefined,
+            weightUnit: 'KG',
+            mrp: undefined,
+            traderPrice: undefined,
             image: "",
             expireDate: undefined,
+            description: "",
         },
     });
 
     async function onSubmit(data: z.infer<typeof ProductSchema>) {
+        setLoading(true)
         try {
             const formData = new FormData();
             formData.append("name", data.name);
             formData.append("description", data.description);
             formData.append("quantity", data.quantity.toString());
             formData.append("weight", data.weight.toString());
+            formData.append("weightUnit", data.weightUnit);
             formData.append("mrp", data.mrp.toString());
             formData.append("traderPrice", data.traderPrice.toString());
             formData.append("expireDate", data.expireDate.toISOString());
@@ -82,6 +95,8 @@ export default function ProductForm() {
             setProducts((prev) => [...prev, newProduct]);
         } catch (err: any) {
             toast.error(err.message || "Something went wrong!");
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -106,69 +121,82 @@ export default function ProductForm() {
                     )}
                 />
 
-                {/* Description */}
-                <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Description</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter product description" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
                 {/* Quantity */}
                 <FormField
                     control={form.control}
                     name="quantity"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Quantity</FormLabel>
+                            <FormLabel>Product Quantity</FormLabel>
                             <FormControl>
-                                <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                <Input placeholder="Enter product quantity" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="mrp"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Quantity</FormLabel>
-                            <FormControl>
-                                <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+
                 <FormField
                     control={form.control}
                     name="weight"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Quantity</FormLabel>
+                            <FormLabel>Product Weight</FormLabel>
                             <FormControl>
-                                <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                <Input placeholder="Enter product weight" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
+                <FormField
+                    control={form.control}
+                    name="weightUnit"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Product weightUnit</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a weight unit" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {
+                                        ["LITER", "ML", "KG", "GM"].map((item, index) => (
+                                            <SelectItem key={index} value={item}>{item}</SelectItem>
+                                        ))
+                                    }
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="mrp"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Product MRP</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your prodct MRP" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
                 <FormField
                     control={form.control}
                     name="traderPrice"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Quantity</FormLabel>
+                            <FormLabel>Product Trade Price</FormLabel>
                             <FormControl>
-                                <Input type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
+                                <Input placeholder="Enter your product trader price" type="number" {...field} onChange={(e) => field.onChange(Number(e.target.value))} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -201,11 +229,11 @@ export default function ProductForm() {
                     control={form.control}
                     name="expireDate"
                     render={({ field }) => (
-                        <FormItem className="flex flex-col w-full justify-center">
-                            <FormLabel>Expiration Date</FormLabel>
+                        <FormItem className="">
+                            <FormLabel className="">Expiration Date</FormLabel>
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <FormControl>
+                                    <FormControl className="w-full flex">
                                         <Button variant="outline">
                                             {field.value ? format(field.value, "PPP") : "Pick a date"}
                                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -225,10 +253,28 @@ export default function ProductForm() {
                         </FormItem>
                     )}
                 />
+                <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                        <FormItem className="col-span-2">
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                                <Textarea placeholder="Enter product description" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
                 {/* Submit Button */}
                 <div className="col-span-2">
-                    <Button type="submit" className="w-full">Submit</Button>
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={!form.formState.isValid || loading}
+                    >
+                        {loading ? "Loading..." : "Submit"}</Button>
                 </div>
             </form>
         </Form>

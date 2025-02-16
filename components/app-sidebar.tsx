@@ -29,10 +29,6 @@ const data = {
           url: "/dashboard",
           isActive: true,
         },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
       ],
     },
     {

@@ -37,6 +37,7 @@ export async function POST(req: Request) {
                 description: data.get("description") as string,
                 quantity: Number(data.get("quantity")),
                 weight: Number(data.get("weight")),
+                weightUnit: data.get("weightUnit") as any, // Ensure frontend sends a valid enum value
                 mrp: Number(data.get("mrp")),
                 traderPrice: Number(data.get("traderPrice")),
                 image: imageUrl,
@@ -49,4 +50,19 @@ export async function POST(req: Request) {
         console.error("Error creating product:", error);
         return NextResponse.json({ error: "Failed to create product" }, { status: 500 });
     }
+}
+
+
+
+
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany({
+      orderBy: { createdAt: "desc" }, // Fetch latest products first
+    });
+
+    return NextResponse.json(products);
+  } catch (error) {
+    return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
+  }
 }
