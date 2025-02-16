@@ -1,18 +1,11 @@
 "use client";
 
-import Header from "@/components/layout/Header";
-import { useAuth } from "@clerk/nextjs";
 import { motion } from "framer-motion";
-import { redirect } from "next/navigation";
+
 
 export default function Home() {
 
-  const { userId } = useAuth();
 
-  if (userId) {
-    redirect("/dashboard");
-  }
-  
   return (
     <>
       <main className="min-h-screen bg-gray-100 text-gray-900">

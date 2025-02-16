@@ -25,6 +25,10 @@ const data = {
       url: "#",
       items: [
         {
+          title: "Home",
+          url: "/",
+        },
+        {
           title: "Dashboard",
           url: "/dashboard",
           isActive: true,
@@ -53,7 +57,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <SearchForm />
+        <p className="text-center text-2xl font-semibold">Traders</p>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}

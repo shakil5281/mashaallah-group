@@ -13,6 +13,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { SignOutButton, SignUpButton, UserButton, UserProfile } from "@clerk/nextjs"
 
 
 export default function Page({ children }: { children: React.ReactNode }) {
@@ -23,7 +24,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
+          <Breadcrumb className="flex flex-1">
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
                 <BreadcrumbLink href="#">
@@ -37,8 +38,8 @@ export default function Page({ children }: { children: React.ReactNode }) {
             </BreadcrumbList>
           </Breadcrumb>
 
-          <div>
-            
+          <div className="pr-10">
+          <UserButton afterSignOutUrl="/sign-in" />
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
